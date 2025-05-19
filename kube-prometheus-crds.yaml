@@ -22,7 +22,7 @@ spec:
       source:
         repoURL: git@github.com:erickmpene/monitoring.git
         targetRevision: main
-        path: crds-for-monitoring/envs/{{name}}
+        path: crds-for-monitoring/{{name}}
         directory:
           recurse: true
       destination:
