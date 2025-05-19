@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: moniroting-CRDs-multicluster
+  name: moniroting-crds-multicluster
   namespace: argocd
 spec:
   generators:
@@ -16,13 +16,13 @@ spec:
                 # - prod
   template:
     metadata:
-      name: monitoring-CRDs-{{name}}
+      name: monitoring-crds-{{name}}
     spec:
       project: monitoring
       source:
         repoURL: git@github.com:erickmpene/monitoring.git
         targetRevision: main
-        path: CRDs-for-moniroting/envs/{{name}}
+        path: crds-for-moniroting/envs/{{name}}
         directory:
           recurse: true
       destination:
