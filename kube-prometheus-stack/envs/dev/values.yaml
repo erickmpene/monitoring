@@ -1,0 +1,21 @@
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: "admin"
+  service:
+    type: NodePort
+  ingress:
+    enabled: false
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+alertmanager:
+  enabled: true
+
+nodeExporter:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true
