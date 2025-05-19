@@ -12,23 +12,23 @@ spec:
               operator: In
               values:
                 - dev
-                - staging
-                - prod
+                # - staging
+                # - prod
   template:
     metadata:
-      name: falco-{{name}}
+      name: monitoring-{{name}}
     spec:
-      project: falco
+      project: monitoring
       source:
-        repoURL: https://github.com/erickmpene/argocd-falco.git
+        repoURL: git@github.com:erickmpene/monitoring.git
         targetRevision: main
-        path: falco/envs/{{name}}
+        path: kube-prometheus-stack/envs/{{name}}
         helm:
           valueFiles:
-            - charts/falco/values.yaml
+            - values.yaml
       destination:
         server: '{{server}}'
-        namespace: falco
+        namespace: monitoring
       syncPolicy:
         automated:
           prune: true
