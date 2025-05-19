@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: falco-multicluster
+  namespace: argocd
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+            - key: env
+              operator: In
+              values:
+                - dev
+                - staging
+                - prod
+  template:
+    metadata:
+      name: falco-{{name}}
+    spec:
+      project: falco
+      source:
+        repoURL: https://github.com/erickmpene/argocd-falco.git
+        targetRevision: main
+        path: falco/envs/{{name}}
+        helm:
+          valueFiles:
+            - charts/falco/values.yaml
+      destination:
+        server: '{{server}}'
+        namespace: falco
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
