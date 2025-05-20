@@ -1,8 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
-  name: monitoring-multicluster
+  name: monitoring-crds-multicluster
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   generators:
     - clusters:
@@ -16,16 +18,15 @@ spec:
                 # - prod
   template:
     metadata:
-      name: monitoring-{{name}}
+      name: monitoring-crds-{{name}}
     spec:
       project: monitoring
       source:
         repoURL: git@github.com:erickmpene/monitoring.git
         targetRevision: main
-        path: kube-prometheus-stack/envs/{{name}}
-        helm:
-          valueFiles:
-            - values.yaml
+        path: crds-for-monitoring/{{name}}
+        directory:
+          recurse: true
       destination:
         server: '{{server}}'
         namespace: monitoring
@@ -35,3 +36,4 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - Replace=true
